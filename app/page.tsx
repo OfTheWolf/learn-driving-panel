@@ -15,7 +15,7 @@ export default function Page() {
 
   const fetchProfiles = async () => {
     const res = await supabase.auth.getSession()
-    if (!res.data.session) {
+    if (res.error) {
       router.push('/sign-in');
     }
     setLoading(true);
