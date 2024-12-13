@@ -15,9 +15,6 @@ export default function Page() {
 
   const fetchProfiles = async () => {
     const res = await supabase.auth.getSession()
-    if (res.error) {
-      router.push('/sign-in');
-    }
     setLoading(true);
     const { data, error } = await supabase.from('profiles').select();
     setProfiles(data);
@@ -42,6 +39,10 @@ export default function Page() {
     fetchProfiles();
   };
 
+  const handleSignin = () => {
+    router.push('/sign-in');
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -53,6 +54,14 @@ export default function Page() {
           className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
         >
           {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+
+        <button
+          onClick={handleSignin}
+          disabled={loading}
+          className="ml-8 px-4 py-2 bg-gray-500 text-white font-semibold rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
+        >
+          Sign out
         </button>
       </div>
     </div>
